@@ -1,0 +1,26 @@
+{
+  "name": "inventorify",
+  "version": "1.0.0",
+  "description": "Inventorify is a submission for a backend software engineering internship at Shopify for summer 2022.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Thinking-Dragon/Inventorify.git"
+  },
+  "keywords": [
+    "Shopify",
+    "Inventory",
+    "Challenge",
+    "Backend",
+    "Internship"
+  ],
+  "author": "Clément Gassmann-Prince",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Thinking-Dragon/Inventorify/issues"
+  },
+  "homepage": "https://github.com/Thinking-Dragon/Inventorify#readme"
+}
