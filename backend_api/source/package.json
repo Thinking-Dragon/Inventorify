@@ -2,8 +2,10 @@
   "name": "inventorify",
   "version": "1.0.0",
   "description": "Inventorify is a submission for a backend software engineering internship at Shopify for summer 2022.",
-  "main": "main.js",
+  "main": "build/Main.js",
   "scripts": {
+    "start": "tsc && node build/Main.js",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
