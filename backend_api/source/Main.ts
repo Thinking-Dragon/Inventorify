@@ -1,14 +1,19 @@
 import Controller from './api/controllers/Controller';
 import InventoryController from './api/controllers/InventoryController';
+import InventoryService from './api/services/InventoryService';
+import SERVICE_TYPES from './api/services/ServiceTypes';
+import { dependencyInjectionContainer } from './inversify.config';
 import WebServer from './WebServer';
 
 const PORT = 3000;
 const ROOT_PATH = '/api';
 
+const inventoryService = dependencyInjectionContainer.get<InventoryService>(SERVICE_TYPES.InventoryService);
+
 const controllers: Array<Controller> = [
-    new InventoryController(ROOT_PATH)
+    new InventoryController(ROOT_PATH, inventoryService)
 ];
-
+        
 const server = new WebServer(controllers, PORT);
-
+        
 server.listen();
