@@ -7,10 +7,10 @@ class InventoryController extends Controller {
     constructor(path: string, inventoryService: InventoryService) {
         super(path);
         this._inventoryService = inventoryService;
-        this.router.get('/inventoryitems', (request, response) => this.getInventories(request, response));
+        this.router.get('/inventoryitems', (request, response) => this.getInventoryItems(request, response));
     }
 
-    getInventories(request: express.Request, response: express.Response): void {
+    getInventoryItems(request: express.Request, response: express.Response): void {
         const inventorItems = this._inventoryService.getAllItems();
         response.json(inventorItems);
     }
