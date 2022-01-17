@@ -11,8 +11,8 @@ class InventoryController extends Controller {
     }
 
     getInventories(request: express.Request, response: express.Response): void {
-        this._inventoryService.getAllItems();
-        response.send('Inventories list');
+        const inventorItems = this._inventoryService.getAllItems();
+        response.json(inventorItems);
     }
 
     private _inventoryService: InventoryService;
