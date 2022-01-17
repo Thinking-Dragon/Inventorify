@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/Thinking-Dragon/Inventorify/issues"
   },
-  "homepage": "https://github.com/Thinking-Dragon/Inventorify#readme"
+  "homepage": "https://github.com/Thinking-Dragon/Inventorify#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
 }
