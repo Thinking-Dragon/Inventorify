@@ -27,6 +27,8 @@
   "homepage": "https://github.com/Thinking-Dragon/Inventorify#readme",
   "dependencies": {
     "express": "^4.17.2",
+    "inversify": "^6.0.1",
+    "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.2"
   },
   "devDependencies": {
