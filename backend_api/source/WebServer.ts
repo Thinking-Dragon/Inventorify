@@ -7,8 +7,6 @@ class WebServer {
         this.application = express();
         this.port = port;
 
-        this.application.get('/', (_, r) => r.send('!'));
-
         this.initializeControllers(controllers);
     }
 
