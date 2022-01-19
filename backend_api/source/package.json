@@ -1,5 +1,5 @@
 {
-  "name": "inventorify",
+  "name": "inventorify_backend",
   "version": "1.0.0",
   "description": "Inventorify is a submission for a backend software engineering internship at Shopify for summer 2022.",
   "main": "build/Main.js",
