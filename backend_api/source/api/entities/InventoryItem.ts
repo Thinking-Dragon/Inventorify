@@ -14,3 +14,5 @@ type InventoryItem = {
     deletionDate: Date,
     lastModificationDate: Date
 }
+
+export default InventoryItem;

@@ -10,8 +10,8 @@ class InventoryController extends Controller {
         this.router.get('/inventoryitems', (request, response) => this.getInventoryItems(request, response));
     }
 
-    getInventoryItems(request: express.Request, response: express.Response): void {
-        const inventorItems = this._inventoryService.getAllItems();
+    async getInventoryItems(request: express.Request, response: express.Response): Promise<void> {
+        const inventorItems = await this._inventoryService.getAllItems();
         response.json(inventorItems);
     }
 
