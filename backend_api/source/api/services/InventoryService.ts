@@ -15,7 +15,7 @@ class InventoryService {
         this._databaseService = databaseService;
     }
 
-    async getAllItems(extend: boolean = true): Promise<Array<InventoryItem>> {
+    async getAllItems(extend: boolean = false): Promise<Array<InventoryItem>> {
         let query: string;
         
         if(extend) query = fs.readFileSync(InventoryService.GET_ALL_INVENTORY_ITEMS_EXTENDED_SCRIPT).toString();
