@@ -12,13 +12,33 @@ class InventoryItemComponent extends HTMLElement {
     // Data processing methods
     updateItem() {
         const newSku = this._skuField.value;
+        const newName = this._nameField.value;
+        const newDescription = this._descriptionField.value;
         const newPrice = this._priceField.value;
         const newCurrency = this._currencyField.value;
         const newQuantity = this._quantityField.value;
 
-        //fetch()
-
-        this._onRefresh();
+        fetch(`${API_ADDRESS}/inventory-items/${this._itemData.sku}`, {
+            method: 'PUT',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer',
+            body: JSON.stringify({
+                sku: newSku,
+                name: newName,
+                description: newDescription,
+                price: {
+                    value: newPrice,
+                    currency: newCurrency
+                },
+                quantity: newQuantity
+            })
+        }).then(() => this._onRefresh());
     }
 
     // Rendering methods
