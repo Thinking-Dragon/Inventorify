@@ -2,6 +2,7 @@ import * as express_module from 'express';
 import express from 'express';
 import Controller from './api/controllers/Controller';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 
 class WebServer {
     constructor(controllers: Array<Controller>, port: number) {
@@ -18,6 +19,7 @@ class WebServer {
 
     private bindMiddlewares(): void {
         this.application.use(cors());
+        this.application.use(bodyParser.json());
     }
 
     private bindControllers(controllers: Array<Controller>) {
