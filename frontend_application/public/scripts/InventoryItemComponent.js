@@ -15,12 +15,14 @@ class InventoryItemComponent extends HTMLElement {
         const newPrice = this._priceField.value;
         const newCurrency = this._currencyField.value;
         const newQuantity = this._quantityField.value;
-        console.log(`SKU: ${newSku}, Price: ${newPrice}, Currency: ${newCurrency}, Quantity: ${newQuantity}`);
+
+        //fetch()
+
         this._onRefresh();
     }
 
     // Rendering methods
-    refreshView() {
+    async refreshView() {
         let card = document.createElement('div');
         card.setAttribute('class', 'card m-3');
 
@@ -28,21 +30,24 @@ class InventoryItemComponent extends HTMLElement {
         row.setAttribute('class', 'row align-items-start');
 
         this._skuField = this.makeTextField();
-        this._priceField = this.makeTextField();
-        this._currencyField = this.makeDropdownField([
-            {name: 'Swiss Franc', symbol: 'CHF'},
-            {name: 'Canadian Dollar', symbol: 'CAD'}
-        ]);
-        this._quantityField = this.makeTextField();
+        this._nameField = this.makeTextField();
+        this._descriptionField = this.makeTextboxField();
+        this._priceField = this.makeNumericField();
+        this._currencyField = this.makeDropdownField(await getCurrencies());
+        this._quantityField = this.makeNumericField();
         let updateButton = this.makeButton(() => this.updateItem());
 
         this._skuField.value = this._itemData.sku;
+        this._nameField.value = this._itemData.name;
+        this._descriptionField.value = this._itemData.description;
         this._priceField.value = this._itemData.price.value;
         this._currencyField.value = this._itemData.price.currency.symbol;
         this._quantityField.value = this._itemData.quantity;
         updateButton.innerText = 'Update';
 
         row.appendChild(this._skuField);
+        row.appendChild(this._nameField);
+        row.appendChild(this._descriptionField);
         row.appendChild(this._priceField);
         row.appendChild(this._currencyField);
         row.appendChild(this._quantityField);
@@ -63,7 +68,22 @@ class InventoryItemComponent extends HTMLElement {
         return field;
     }
 
+    makeTextboxField() {
+        let field = document.createElement('textarea');
+        field.setAttribute('class', 'col form-control m-3');
+        return field;
+    }
+
+    makeNumericField() {
+        let field = document.createElement('input');
+        field.setAttribute('class', 'col form-control m-3');
+        field.setAttribute('type', 'number');
+        field.setAttribute('min', '0');
+        return field;
+    }
+
     makeDropdownField(options) {
+        console.log(options);
         let field = document.createElement('select');
         field.setAttribute('class', 'col form-select m-3');
         options.forEach(option => {

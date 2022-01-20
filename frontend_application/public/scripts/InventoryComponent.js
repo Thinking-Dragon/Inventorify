@@ -13,6 +13,8 @@ class InventoryComponent extends HTMLElement {
                     <div class="container">
                         <div class="row align-items-start">
                             <div class="col">SKU</div>
+                            <div class="col">Name</div>
+                            <div class="col">Description</div>
                             <div class="col">Price</div>
                             <div class="col">Currency</div>
                             <div class="col">Quantity</div>
