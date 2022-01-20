@@ -20,20 +20,30 @@ class SQLiteDatabaseService implements RelationalDatabaseService {
         }
     }
     
-    all(query: string): Promise<any> {
+    all(query: string, placeholders: any = {}): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._database.all(query, (error, rows) => {
+            const statement = this._database.prepare(query, placeholders, error => {
                 if(error) reject(error);
-                else resolve(rows);
+                else {
+                    statement.all((error, rows) => {
+                        if(error) reject(error);
+                        else resolve(rows);
+                    });
+                }
             });
         });
     }
 
-    get(query: string): Promise<any> {
+    get(query: string, placeholders: any = {}): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._database.get(query, (error, row) => {
+            const statement = this._database.prepare(query, placeholders, error => {
                 if(error) reject(error);
-                else resolve(row);
+                else {
+                    statement.get((error, row) => {
+                        if(error) reject(error);
+                        else resolve(row);
+                    });
+                }
             });
         });
     }

@@ -10,6 +10,8 @@ import * as ItemInflater from '../inflaters/InventoryItemInflater';
 class InventoryService {
     private static readonly GET_ALL_INVENTORY_ITEMS_EXTENDED_SCRIPT: string = '../persistence/get_all_inventory_items_extended.sql';
     private static readonly GET_ALL_INVENTORY_ITEMS_SCRIPT: string = '../persistence/get_all_inventory_items.sql';
+    private static readonly GET_ONE_INVENTORY_ITEM_EXTENDED_SCRIPT: string = '../persistence/get_one_inventory_item_extended.sql';
+    private static readonly GET_ONE_INVENTORY_ITEM_SCRIPT: string = '../persistence/get_one_inventory_item.sql';
 
     constructor(@inject(SERVICE_TYPES.RelationalDatabaseService) databaseService: RelationalDatabaseService) {
         this._databaseService = databaseService;
@@ -32,18 +34,25 @@ class InventoryService {
         return rows;
     }
 
-    getOneItem(id: number): InventoryItem {
+    async getOneItem(sku: string, extend: boolean = false): Promise<InventoryItem> {
+        let query: string;
+        
+        if(extend) query = fs.readFileSync(InventoryService.GET_ONE_INVENTORY_ITEM_EXTENDED_SCRIPT).toString();
+        else query = fs.readFileSync(InventoryService.GET_ONE_INVENTORY_ITEM_SCRIPT).toString();
+
+        const queryResult = await this._databaseService.get(query, {$item_sku: sku});
+        const row = extend ? ItemInflater.inflateFlatItem(queryResult) : ItemInflater.decorateFlatItem(queryResult);
+
+        return row;
+    }
+
+    async addItem(item: any): Promise<void> {
         throw new Error('Method not implemented.');
     }
 
-    addItem(item: InventoryItem): InventoryItem {
+    async modifyItem(item: any): Promise<void> {
         throw new Error('Method not implemented.');
     }
-
-    modifyItem(item: InventoryItem): InventoryItem {
-        throw new Error('Method not implemented.');
-    }
-
     
 
     private _databaseService: RelationalDatabaseService;
