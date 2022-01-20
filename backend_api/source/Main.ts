@@ -9,10 +9,14 @@ import WebServer from './WebServer';
 const PORT: number = 3000;
 const ROOT_PATH: string = '/api';
 const SCHEMA_CREATION_SCRIPT_PATH: string = '../persistence/create_schema.sql';
+const CURRENCY_GENERATION_SCRIPT_PATH: string = '../persistence/generate_currencies.sql';
 
-// If database does not exist, create it with from schema.
+// If database does not exist, create it with from schema and insert currencies into it.
 const dbService = dependencyInjectionContainer.get<SQLiteDatabaseService>(SERVICE_TYPES.RelationalDatabaseService);
-dbService.runScript(SCHEMA_CREATION_SCRIPT_PATH);
+(async () => {
+    await dbService.runScript(SCHEMA_CREATION_SCRIPT_PATH);
+    await dbService.runScript(CURRENCY_GENERATION_SCRIPT_PATH);
+})();
 
 // Start api server
 const inventoryService = dependencyInjectionContainer.get<InventoryService>(SERVICE_TYPES.InventoryService);

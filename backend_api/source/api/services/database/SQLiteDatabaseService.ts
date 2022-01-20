@@ -11,13 +11,17 @@ class SQLiteDatabaseService implements RelationalDatabaseService {
         this._database = new sqlite3.Database(databaseName);
     }
 
-    runScript(scriptPath: string): void {
+    runScript(scriptPath: string): Promise<void[]> {
         const script: string = fs.readFileSync(scriptPath).toString();
         const statements: Array<string> = script.split(';').filter(statement => statement !== '');
-        
+         
+        const tasks = [];
+
         for(const statement of statements) {
-            this._database.run(statement);
+            tasks.push(this.run(statement));
         }
+
+        return Promise.all(tasks);
     }
     
     all(query: string, placeholders: any = {}): Promise<any> {

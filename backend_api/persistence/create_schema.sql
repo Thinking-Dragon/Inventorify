@@ -1,13 +1,13 @@
 CREATE TABLE IF NOT EXISTS Currencies (
-    id INT NOT NULL PRIMARY KEY,
+    id INTEGER PRIMARY KEY NOT NULL,
     currency_name VARCHAR(64) NOT NULL,
-    symbol VARCHAR(3) NOT NULL
+    symbol VARCHAR(3) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS InventoryItems (
-    id INT NOT NULL PRIMARY KEY,
+    id INTEGER PRIMARY KEY NOT NULL,
     
-    sku VARCHAR(32) NOT NULL,
+    sku VARCHAR(32) NOT NULL UNIQUE,
     
     price_value DECIMAL(15, 2) NOT NULL,
     price_currency_id INT NOT NULL,

@@ -13,6 +13,7 @@ class InventoryService {
     private static readonly GET_ONE_EXTENDED_SCRIPT_PATH: string = '../persistence/inventoryitems/get_one_extended.sql';
     private static readonly GET_ONE_SCRIPT_PATH: string = '../persistence/inventoryitems/get_one.sql';
     private static readonly UPDATE_SCRIPT_PATH: string = '../persistence/inventoryitems/update.sql';
+    private static readonly ADD_SCRIPT_PATH: string = '../persistence/inventoryitems/add.sql';
 
     constructor(@inject(SERVICE_TYPES.RelationalDatabaseService) databaseService: RelationalDatabaseService) {
         this._databaseService = databaseService;
@@ -49,6 +50,13 @@ class InventoryService {
 
     async addItem(item: any): Promise<void> {
         const query: string = fs.readFileSync(InventoryService.ADD_SCRIPT_PATH).toString();
+
+        this._databaseService.run(query, {
+            $sku: item.sku,
+            $price_value: item.price_value,
+            $price_currency: item.price_currency,
+            $quantitiy: item.quantity
+        });
     }
 
     async updateItem(item: any): Promise<void> {

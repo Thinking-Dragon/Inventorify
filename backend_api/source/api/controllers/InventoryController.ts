@@ -28,10 +28,9 @@ class InventoryController extends Controller {
     async addInventoryItem(request: express.Request, response: express.Response): Promise<void> {
         let item = {
             sku: request.body.sku,
-            price_value: request.body.price_value,
-            price_currency: request.body.price_currency,
-            quantity: request.body.quantity,
-            creation_date: new Date().toString()
+            price_value: request.body.price.value,
+            price_currency: request.body.price.currency,
+            quantity: request.body.quantity
         }
 
         await this._inventoryService.addItem(item);
@@ -43,12 +42,9 @@ class InventoryController extends Controller {
         let item = {
             original_sku: request.params.sku,
             sku: request.body.sku,
-            price_value: request.body.price_value,
-            price_currency: request.body.price_currency,
-            quantity: request.body.quantity,
-            supplier: request.body.supplier,
-            client: request.body.client,
-            last_modification_date: new Date().toString()
+            price_value: request.body.price.value,
+            price_currency: request.body.price.currency,
+            quantity: request.body.quantity
         }
 
         await this._inventoryService.updateItem(item);
