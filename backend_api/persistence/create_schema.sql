@@ -8,6 +8,9 @@ CREATE TABLE IF NOT EXISTS InventoryItems (
     id INTEGER PRIMARY KEY NOT NULL,
     
     sku VARCHAR(32) NOT NULL UNIQUE,
+
+    item_name VARCHAR(128) NOT NULL,
+    item_description TEXT,
     
     price_value DECIMAL(15, 2) NOT NULL,
     price_currency_id INT NOT NULL,

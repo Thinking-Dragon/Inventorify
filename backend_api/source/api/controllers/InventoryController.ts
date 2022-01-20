@@ -28,6 +28,8 @@ class InventoryController extends Controller {
     async addInventoryItem(request: express.Request, response: express.Response): Promise<void> {
         let item = {
             sku: request.body.sku,
+            name: request.body.name,
+            description: request.body.description,
             price_value: request.body.price.value,
             price_currency: request.body.price.currency,
             quantity: request.body.quantity
@@ -42,6 +44,8 @@ class InventoryController extends Controller {
         let item = {
             original_sku: request.params.sku,
             sku: request.body.sku,
+            name: request.body.name,
+            description: request.body.description,
             price_value: request.body.price.value,
             price_currency: request.body.price.currency,
             quantity: request.body.quantity

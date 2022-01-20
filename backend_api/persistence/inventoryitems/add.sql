@@ -1,5 +1,7 @@
 INSERT INTO InventoryItems (
     sku,
+    item_name,
+    item_description,
     price_value,
     price_currency_id,
     quantity,
@@ -7,6 +9,8 @@ INSERT INTO InventoryItems (
 )
 VALUES (
     $sku,
+    $item_name,
+    $item_description,
     $price_value,
     (
         SELECT id

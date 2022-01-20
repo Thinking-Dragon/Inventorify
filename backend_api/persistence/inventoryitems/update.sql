@@ -1,5 +1,7 @@
 UPDATE InventoryItems SET
     sku = $sku,
+    item_name = $item_name,
+    item_description = $item_description,
     price_value = $price_value,
     price_currency_id = (
         SELECT id

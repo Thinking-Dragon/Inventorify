@@ -1,4 +1,6 @@
 SELECT  sku,
+        item_name,
+        item_description,
         price_value,
         currency.symbol as price_currency,
         quantity,

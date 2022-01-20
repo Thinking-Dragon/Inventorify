@@ -2,6 +2,8 @@
 function decorateFlatItem(jsonObject: any): any {
     return {
         sku: jsonObject.sku,
+        name: jsonObject.item_name,
+        description: jsonObject.item_description,
         price: {
             value: jsonObject.price_value,
             currency: {
@@ -17,6 +19,8 @@ function decorateFlatItem(jsonObject: any): any {
 function inflateFlatItem(jsonObject: any): any {
     return {
         sku: jsonObject.item_sku,
+        name: jsonObject.item_name,
+        description: jsonObject.item_description,
         price: {
             value: jsonObject.price_value,
             currency: {

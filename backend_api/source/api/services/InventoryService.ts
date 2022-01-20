@@ -50,12 +50,14 @@ class InventoryService {
 
     async addItem(item: any): Promise<void> {
         const query: string = fs.readFileSync(InventoryService.ADD_SCRIPT_PATH).toString();
-
+        
         this._databaseService.run(query, {
             $sku: item.sku,
+            $item_name: item.name,
+            $item_description: item.description,
             $price_value: item.price_value,
             $price_currency: item.price_currency,
-            $quantitiy: item.quantity
+            $quantity: item.quantity
         });
     }
 
@@ -65,6 +67,8 @@ class InventoryService {
         this._databaseService.run(query, {
             $original_item_sku: item.original_sku,
             $sku: item.sku,
+            $item_name: item.name,
+            $item_description: item.description,
             $price_value: item.price_value,
             $price_currency: item.price_currency,
             $quantity: item.quantity
