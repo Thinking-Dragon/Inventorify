@@ -1,7 +1,9 @@
 import Controller from './api/controllers/Controller';
 import InventoryController from './api/controllers/InventoryController';
-import SQLiteDatabaseService from './api/services/database/SQLiteDatabaseService';
+import CurrencyController from './api/controllers/CurrencyController';
+import CurrencyService from './api/services/CurrencyService';
 import InventoryService from './api/services/InventoryService';
+import SQLiteDatabaseService from './api/services/database/SQLiteDatabaseService';
 import SERVICE_TYPES from './api/services/ServiceTypes';
 import { dependencyInjectionContainer } from './inversify.config';
 import WebServer from './WebServer';
@@ -20,11 +22,13 @@ const dbService = dependencyInjectionContainer.get<SQLiteDatabaseService>(SERVIC
 
 // Start api server
 const inventoryService = dependencyInjectionContainer.get<InventoryService>(SERVICE_TYPES.InventoryService);
+const currencyService = dependencyInjectionContainer.get<CurrencyService>(SERVICE_TYPES.CurrencyService);
 
 const controllers: Array<Controller> = [
-    new InventoryController(ROOT_PATH, inventoryService)
+    new InventoryController(ROOT_PATH, inventoryService),
+    new CurrencyController(ROOT_PATH, currencyService)
 ];
-        
+
 const server = new WebServer(controllers, PORT);
         
 server.listen();
