@@ -48,6 +48,20 @@ class SQLiteDatabaseService implements RelationalDatabaseService {
         });
     }
 
+    run(query: string, placeholders: any = {}): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const statement = this._database.prepare(query, placeholders, error => {
+                if(error) reject(error);
+                else {
+                    statement.run(error => {
+                        if(error) reject(error);
+                        else resolve();
+                    });
+                }
+            });
+        });
+    }
+
     private _database: sqlite3.Database;
 }
 

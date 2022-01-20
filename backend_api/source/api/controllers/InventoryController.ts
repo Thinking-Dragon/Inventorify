@@ -1,6 +1,5 @@
 import * as express from 'express';
 import 'reflect-metadata';
-import InventoryItem from '../entities/InventoryItem';
 import InventoryService from '../services/InventoryService';
 import Controller from "./controller";
 
@@ -9,8 +8,9 @@ class InventoryController extends Controller {
         super(path);
         this._inventoryService = inventoryService;
         this.router.get('/inventory-items', (request, response) => this.getInventoryItems(request, response));
-        this.router.get('/inventory-items/:sku', (request, response) => this.getInventoryItem(request, response));
         this.router.post('/inventory-items', (request, response) => this.addInventoryItem(request, response));
+        this.router.get('/inventory-items/:sku', (request, response) => this.getInventoryItem(request, response));
+        this.router.put('/inventory-items/:sku', (request, response) => this.updateInventoryItem(request, response));
     }
 
     async getInventoryItems(request: express.Request, response: express.Response): Promise<void> {
@@ -28,15 +28,30 @@ class InventoryController extends Controller {
     async addInventoryItem(request: express.Request, response: express.Response): Promise<void> {
         let item = {
             sku: request.body.sku,
-            priceValue: request.body.price_value,
-            priceCurrency: request.body.price_currency,
+            price_value: request.body.price_value,
+            price_currency: request.body.price_currency,
+            quantity: request.body.quantity,
+            creation_date: new Date().toString()
+        }
+
+        await this._inventoryService.addItem(item);
+
+        response.json(this._inventoryService.getOneItem(item.sku));
+    }
+
+    async updateInventoryItem(request: express.Request, response: express.Response): Promise<void> {
+        let item = {
+            original_sku: request.params.sku,
+            sku: request.body.sku,
+            price_value: request.body.price_value,
+            price_currency: request.body.price_currency,
             quantity: request.body.quantity,
             supplier: request.body.supplier,
             client: request.body.client,
-            lastModificationDate: request.body.last_modification_date
+            last_modification_date: new Date().toString()
         }
 
-        await this._inventoryService.modifyItem(item);
+        await this._inventoryService.updateItem(item);
 
         response.json(this._inventoryService.getOneItem(item.sku));
     }

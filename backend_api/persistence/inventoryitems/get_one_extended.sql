@@ -1,0 +1,10 @@
+SELECT  item.sku                        as item_sku,
+        item.price_value                as price_value,
+        currency.currency_name          as price_currency_name,
+        currency.symbol                 as price_currency_symbol,
+        item.quantity                   as item_quantity,
+        item.creation_date              as item_creation_date,
+        item.last_modification_date     as item_last_modified_date
+FROM InventoryItems item
+JOIN Currencies currency                ON item.price_currency_id = currency.id
+WHERE item_sku = $item_sku
