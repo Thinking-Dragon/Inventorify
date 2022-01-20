@@ -21,7 +21,7 @@ class CurrencyService {
 
         const currencies: Array<any> = await this._databaseService.all(query);
 
-        return currencies.filter(currency => this.formatCurrency(currency));
+        return currencies.map(currency => this.formatCurrency(currency));
     }
 
     async getOneItem(symbol: string): Promise<InventoryItem> {
