@@ -8,10 +8,11 @@ import * as ItemInflater from '../inflaters/InventoryItemInflater';
 
 @injectable()
 class InventoryService {
-    private static readonly GET_ALL_INVENTORY_ITEMS_EXTENDED_SCRIPT: string = '../persistence/get_all_inventory_items_extended.sql';
-    private static readonly GET_ALL_INVENTORY_ITEMS_SCRIPT: string = '../persistence/get_all_inventory_items.sql';
-    private static readonly GET_ONE_INVENTORY_ITEM_EXTENDED_SCRIPT: string = '../persistence/get_one_inventory_item_extended.sql';
-    private static readonly GET_ONE_INVENTORY_ITEM_SCRIPT: string = '../persistence/get_one_inventory_item.sql';
+    private static readonly GET_ALL_EXTENDED_SCRIPT_PATH: string = '../persistence/inventoryitems/get_all_extended.sql';
+    private static readonly GET_ALL_SCRIPT_PATH: string = '../persistence/inventoryitems/get_all.sql';
+    private static readonly GET_ONE_EXTENDED_SCRIPT_PATH: string = '../persistence/inventoryitems/get_one_extended.sql';
+    private static readonly GET_ONE_SCRIPT_PATH: string = '../persistence/inventoryitems/get_one.sql';
+    private static readonly UPDATE_SCRIPT_PATH: string = '../persistence/inventoryitems/update.sql';
 
     constructor(@inject(SERVICE_TYPES.RelationalDatabaseService) databaseService: RelationalDatabaseService) {
         this._databaseService = databaseService;
@@ -20,8 +21,8 @@ class InventoryService {
     async getAllItems(extend: boolean = false): Promise<Array<InventoryItem>> {
         let query: string;
         
-        if(extend) query = fs.readFileSync(InventoryService.GET_ALL_INVENTORY_ITEMS_EXTENDED_SCRIPT).toString();
-        else query = fs.readFileSync(InventoryService.GET_ALL_INVENTORY_ITEMS_SCRIPT).toString();
+        if(extend) query = fs.readFileSync(InventoryService.GET_ALL_EXTENDED_SCRIPT_PATH).toString();
+        else query = fs.readFileSync(InventoryService.GET_ALL_SCRIPT_PATH).toString();
 
         const queryResult = await this._databaseService.all(query);
 
@@ -37,8 +38,8 @@ class InventoryService {
     async getOneItem(sku: string, extend: boolean = false): Promise<InventoryItem> {
         let query: string;
         
-        if(extend) query = fs.readFileSync(InventoryService.GET_ONE_INVENTORY_ITEM_EXTENDED_SCRIPT).toString();
-        else query = fs.readFileSync(InventoryService.GET_ONE_INVENTORY_ITEM_SCRIPT).toString();
+        if(extend) query = fs.readFileSync(InventoryService.GET_ONE_EXTENDED_SCRIPT_PATH).toString();
+        else query = fs.readFileSync(InventoryService.GET_ONE_SCRIPT_PATH).toString();
 
         const queryResult = await this._databaseService.get(query, {$item_sku: sku});
         const row = extend ? ItemInflater.inflateFlatItem(queryResult) : ItemInflater.decorateFlatItem(queryResult);
@@ -50,8 +51,13 @@ class InventoryService {
         throw new Error('Method not implemented.');
     }
 
-    async modifyItem(item: any): Promise<void> {
-        throw new Error('Method not implemented.');
+    async updateItem(item: any): Promise<void> {
+        const query: string = fs.readFileSync(InventoryService.UPDATE_SCRIPT_PATH).toString();
+
+        this._databaseService.run(query, {
+            $original_item_sku: item.original_sku,
+            $price_value: item.price_value
+        });
     }
     
 
