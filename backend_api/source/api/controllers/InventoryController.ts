@@ -11,8 +11,8 @@ class InventoryController extends Controller {
     }
 
     async getInventoryItems(request: express.Request, response: express.Response): Promise<void> {
-        const inventorItems = await this._inventoryService.getAllItems();
-        response.json(inventorItems);
+        const inventoryItems = await this._inventoryService.getAllItems(request.query._extend === 'true');
+        response.json(inventoryItems);
     }
 
     private _inventoryService: InventoryService;
