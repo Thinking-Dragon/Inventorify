@@ -1,25 +1,24 @@
-class InventoryItemComponent extends HTMLElement {
-    constructor(itemData, onRefresh) {
+class InventoryNewItemComponent extends HTMLElement {
+    constructor(onRefresh) {
         super();
         this.attachShadow({mode: 'open'});
         
-        this._itemData = itemData;
         this._onRefresh = onRefresh;
 
         this.refreshView();
     }
 
     // Data processing methods
-    updateItem() {
-        const newSku = this._skuField.value;
-        const newName = this._nameField.value;
-        const newDescription = this._descriptionField.value;
-        const newPrice = this._priceField.value;
-        const newCurrency = this._currencyField.value;
-        const newQuantity = this._quantityField.value;
+    addItem() {
+        const sku = this._skuField.value;
+        const name = this._nameField.value;
+        const description = this._descriptionField.value;
+        const price = this._priceField.value;
+        const currency = this._currencyField.value;
+        const quantity = this._quantityField.value;
 
-        fetch(`${API_ADDRESS}/inventory-items/${this._itemData.sku}`, {
-            method: 'PUT',
+        fetch(`${API_ADDRESS}/inventory-items`, {
+            method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
             credentials: 'same-origin',
@@ -29,14 +28,14 @@ class InventoryItemComponent extends HTMLElement {
             redirect: 'follow',
             referrerPolicy: 'no-referrer',
             body: JSON.stringify({
-                sku: newSku,
-                name: newName,
-                description: newDescription,
+                sku: sku,
+                name: name,
+                description: description,
                 price: {
-                    value: newPrice,
-                    currency: newCurrency
+                    value: price,
+                    currency: currency
                 },
-                quantity: newQuantity
+                quantity: quantity
             })
         }).then(() => this._onRefresh());
     }
@@ -55,15 +54,9 @@ class InventoryItemComponent extends HTMLElement {
         this._priceField = this.makeNumericField();
         this._currencyField = this.makeDropdownField(await getCurrencies());
         this._quantityField = this.makeNumericField();
-        let updateButton = this.makeButton(() => this.updateItem());
+        let addButton = this.makeButton(() => this.addItem());
 
-        this._skuField.value = this._itemData.sku;
-        this._nameField.value = this._itemData.name;
-        this._descriptionField.value = this._itemData.description;
-        this._priceField.value = this._itemData.price.value;
-        this._currencyField.value = this._itemData.price.currency.symbol;
-        this._quantityField.value = this._itemData.quantity;
-        updateButton.innerText = 'Update';
+        addButton.innerText = 'Add';
 
         row.appendChild(this._skuField);
         row.appendChild(this._nameField);
@@ -71,7 +64,7 @@ class InventoryItemComponent extends HTMLElement {
         row.appendChild(this._priceField);
         row.appendChild(this._currencyField);
         row.appendChild(this._quantityField);
-        row.appendChild(updateButton);
+        row.appendChild(addButton);
 
         card.appendChild(row);
 
@@ -122,4 +115,4 @@ class InventoryItemComponent extends HTMLElement {
     }
 }
 
-customElements.define('inventory-item-component', InventoryItemComponent);
+customElements.define('inventory-new-item-component', InventoryNewItemComponent);

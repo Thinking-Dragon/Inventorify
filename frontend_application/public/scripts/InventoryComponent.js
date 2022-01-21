@@ -23,6 +23,11 @@ class InventoryComponent extends HTMLElement {
                     </div>
                 `, 'text/html').body;
 
+                let newItemRow = new InventoryNewItemComponent(() => this.refreshView());
+                inventoryTable.appendChild(newItemRow);
+
+                inventoryTable.appendChild(document.createElement('hr'));
+
                 inventoryItems.forEach(item => {
                     let row = new InventoryItemComponent(item, () => this.refreshView());
                     inventoryTable.appendChild(row);
