@@ -14,6 +14,7 @@ class InventoryService {
     private static readonly GET_ONE_SCRIPT_PATH: string = '../persistence/inventoryitems/get_one.sql';
     private static readonly UPDATE_SCRIPT_PATH: string = '../persistence/inventoryitems/update.sql';
     private static readonly ADD_SCRIPT_PATH: string = '../persistence/inventoryitems/add.sql';
+    private static readonly DELETE_SCRIPT_PATH: string = '../persistence/inventoryitems/delete.sql';
 
     constructor(@inject(SERVICE_TYPES.RelationalDatabaseService) databaseService: RelationalDatabaseService) {
         this._databaseService = databaseService;
@@ -75,6 +76,11 @@ class InventoryService {
         });
     }
     
+    async deleteItem(sku: string): Promise<void> {
+        const query: string = fs.readFileSync(InventoryService.DELETE_SCRIPT_PATH).toString();
+
+        this._databaseService.run(query, {$sku: sku});
+    }
 
     private _databaseService: RelationalDatabaseService;
 }

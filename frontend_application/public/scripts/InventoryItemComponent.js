@@ -41,6 +41,17 @@ class InventoryItemComponent extends HTMLElement {
         }).then(() => this._onRefresh());
     }
 
+    deleteItem() {
+        fetch(`${API_ADDRESS}/inventory-items/${this._itemData.sku}`, {
+            method: 'DELETE',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            redirect: 'follow',
+            referrerPolicy: 'no-referrer'
+        }).then(() => this._onRefresh());
+    }
+
     // Rendering methods
     async refreshView() {
         let card = document.createElement('div');
@@ -56,6 +67,7 @@ class InventoryItemComponent extends HTMLElement {
         this._currencyField = this.makeDropdownField(await getCurrencies());
         this._quantityField = this.makeNumericField();
         let updateButton = this.makeButton(() => this.updateItem());
+        let deleteButton = this.makeButton(() => this.deleteItem());
 
         this._skuField.value = this._itemData.sku;
         this._nameField.value = this._itemData.name;
@@ -64,6 +76,7 @@ class InventoryItemComponent extends HTMLElement {
         this._currencyField.value = this._itemData.price.currency.symbol;
         this._quantityField.value = this._itemData.quantity;
         updateButton.innerText = 'Update';
+        deleteButton.innerText = 'Delete';
 
         row.appendChild(this._skuField);
         row.appendChild(this._nameField);
@@ -72,6 +85,7 @@ class InventoryItemComponent extends HTMLElement {
         row.appendChild(this._currencyField);
         row.appendChild(this._quantityField);
         row.appendChild(updateButton);
+        row.appendChild(deleteButton);
 
         card.appendChild(row);
 

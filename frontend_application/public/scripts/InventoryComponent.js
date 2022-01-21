@@ -19,6 +19,7 @@ class InventoryComponent extends HTMLElement {
                             <div class="col">Currency</div>
                             <div class="col">Quantity</div>
                             <div class="col"></div>
+                            <div class="col"></div>
                         </div>
                     </div>
                 `, 'text/html').body;

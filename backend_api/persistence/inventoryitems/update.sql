@@ -10,4 +10,4 @@ UPDATE InventoryItems SET
     ),
     quantity = $quantity,
     last_modification_date = datetime('now')
-WHERE sku = $original_item_sku
+WHERE sku = $original_item_sku AND deletion_date IS NULL

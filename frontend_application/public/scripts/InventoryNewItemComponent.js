@@ -55,6 +55,8 @@ class InventoryNewItemComponent extends HTMLElement {
         this._currencyField = this.makeDropdownField(await getCurrencies());
         this._quantityField = this.makeNumericField();
         let addButton = this.makeButton(() => this.addItem());
+        let emptyColumnCell = document.createElement('div');
+        emptyColumnCell.setAttribute('class', 'col');
 
         addButton.innerText = 'Add';
 
@@ -65,6 +67,7 @@ class InventoryNewItemComponent extends HTMLElement {
         row.appendChild(this._currencyField);
         row.appendChild(this._quantityField);
         row.appendChild(addButton);
+        row.appendChild(emptyColumnCell);
 
         card.appendChild(row);
 

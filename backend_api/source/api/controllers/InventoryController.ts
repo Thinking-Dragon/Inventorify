@@ -11,6 +11,7 @@ class InventoryController extends Controller {
         this.router.post('/inventory-items', (request, response) => this.addInventoryItem(request, response));
         this.router.get('/inventory-items/:sku', (request, response) => this.getInventoryItem(request, response));
         this.router.put('/inventory-items/:sku', (request, response) => this.updateInventoryItem(request, response));
+        this.router.delete('/inventory-items/:sku', (request, response) => this.deleteInventoryItem(request, response));
     }
 
     async getInventoryItems(request: express.Request, response: express.Response): Promise<void> {
@@ -54,6 +55,11 @@ class InventoryController extends Controller {
         await this._inventoryService.updateItem(item);
 
         response.json(this._inventoryService.getOneItem(item.sku));
+    }
+
+    async deleteInventoryItem(request: express.Request, response: express.Response): Promise<void> {
+        this._inventoryService.deleteItem(request.params.sku);
+        response.send();
     }
 
     private _inventoryService: InventoryService;

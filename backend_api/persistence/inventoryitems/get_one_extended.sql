@@ -9,4 +9,4 @@ SELECT  item.sku                        as item_sku,
         item.last_modification_date     as item_last_modified_date
 FROM InventoryItems item
 JOIN Currencies currency                ON item.price_currency_id = currency.id
-WHERE item_sku = $item_sku
+WHERE item_sku = $item_sku AND deletion_date IS NULL
